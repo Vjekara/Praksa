@@ -1518,7 +1518,7 @@
     });
 
     const activePanel = document.getElementById(`toolbox-panel-${tool}`);
-    
+
     if (activePanel) {
       activePanel.style.display = "block";
       activePanel.setAttribute("aria-hidden", "false");
@@ -1529,31 +1529,6 @@
     }
   });
 });
-
-
-function displayWeather(data) {
-  const city = data.location.name;
-
-  let weatherHTML = `<h2>${city} - 7 Dana Prognoza</h2>`;
-
-  data.forecast.forecastday.forEach(day => {
-    const date = day.date;
-    const avgTemp = day.day.avgtemp_c;
-    const condition = day.day.condition.text;
-    const icon = day.day.condition.icon;
-
-    weatherHTML += `
-      <div style="margin-bottom: 10px;">
-        <h4>${date}</h4>
-        <img src="https:${icon}" alt="${condition}">
-        <p>${condition}</p>
-        <p><strong>${avgTemp}°C</strong></p>
-      </div>
-    `;
-  });
-
-  document.getElementById("weather").innerHTML = weatherHTML;
-}
 
 async function getWeather(city) {
   const weatherDiv = document.getElementById("weather");
@@ -1578,6 +1553,34 @@ async function getWeather(city) {
   }
 }
 
+function displayWeather(data) {
+  const city = data.location.name;
+
+  let weatherHTML = `
+    <h2>${city} - 7 Day Forecast</h2>
+    <div class="weather-container">
+  `;
+
+  data.forecast.forecastday.forEach(day => {
+    const date = day.date;
+    const avgTemp = day.day.avgtemp_c;
+    const condition = day.day.condition.text;
+    const icon = day.day.condition.icon;
+
+    weatherHTML += `
+      <div class="weather-card">
+        <h4>${date}</h4>
+        <img src="https:${icon}" alt="${condition}">
+        <p>${condition}</p>
+        <p><strong>${avgTemp}°C</strong></p>
+      </div>
+    `;
+  });
+
+  weatherHTML += `</div>`;
+
+  document.getElementById("weather").innerHTML = weatherHTML;
+}
 
 
 })();
