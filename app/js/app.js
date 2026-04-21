@@ -1531,15 +1531,11 @@
 });
 
 function displayWeather(data) {
-  if (!data || data.cod !== 200) {
-    console.error("Invalid weather data");
-    return;
-  }
+
 
   const city = data.name;
   const temp = Math.round(data.main.temp);
   const description = data.weather[0].description;
-  const icon = data.weather[0].icon;
   const humidity = data.main.humidity;
   const wind = data.wind.speed;
 
@@ -1555,13 +1551,9 @@ function displayWeather(data) {
   document.getElementById("weather").innerHTML = weatherHTML;
 }
 
-
 async function getWeather(city) {
   const weatherDiv = document.getElementById("weather");
-
-  if (!weatherDiv) return;
-
-  weatherDiv.innerHTML = "Loading...";
+  weatherDiv.innerText = "Loading...";
 
   const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=4`;
 
@@ -1569,18 +1561,18 @@ async function getWeather(city) {
     const response = await fetch(url);
     const data = await response.json();
 
-    if (data.error) {
-      weatherDiv.innerHTML = `Error: ${data.error.message}`;
+    if (data.cod !== 200) {
+      weatherDiv.innerText = "Error: " + data.message;
       return;
     }
 
     displayWeather(data);
+
   } catch (error) {
-    console.error("Error:", error);
-    weatherDiv.innerHTML = "Error loading weather";
+    weatherDiv.innerText = "Failed to load weather";
+    console.error(error);
   }
 }
-
 
 
 
