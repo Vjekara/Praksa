@@ -1505,10 +1505,10 @@
     renderDashboard();
   }
 
-//WeatherAPI
-const apiKey = "4fcd0d4855e24280a52121246261504";
+  //WeatherAPI
+  const apiKey = "4fcd0d4855e24280a52121246261504";
 
-document.querySelectorAll(".toolbox-card-btn").forEach(btn => {
+  document.querySelectorAll(".toolbox-card-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const tool = btn.dataset.tool;
 
@@ -1530,7 +1530,30 @@ document.querySelectorAll(".toolbox-card-btn").forEach(btn => {
   });
 });
 
+function displayWeather(data) {
+  if (!data || data.cod !== 200) {
+    console.error("Invalid weather data");
+    return;
+  }
 
+  const city = data.name;
+  const temp = Math.round(data.main.temp);
+  const description = data.weather[0].description;
+  const icon = data.weather[0].icon;
+  const humidity = data.main.humidity;
+  const wind = data.wind.speed;
+
+  const weatherHTML = `
+    <h2>${city}</h2>
+    <p><strong>${temp}°C</strong></p>
+    <p>${description}</p>
+    <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}">
+    <p>Humidity: ${humidity}%</p>
+    <p>Wind: ${wind} m/s</p>
+  `;
+
+  document.getElementById("weather").innerHTML = weatherHTML;
+}
 
 
 async function getWeather(city) {
@@ -1557,6 +1580,8 @@ async function getWeather(city) {
     weatherDiv.innerHTML = "Error loading weather";
   }
 }
+
+
 
 
 
