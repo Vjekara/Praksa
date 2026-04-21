@@ -187,6 +187,10 @@
             <h3>Grafovi</h3>
             <p>Vizualizacija rasta i mjerenja.</p>
           </button>
+          <button type="button" class="toolbox-card toolbox-card-btn" data-tool="vrijeme">
+            <h3>Vrijeme</h3>
+            <p>Procjena vremena za danas i idućih par dana</p>
+          </button>
         </div>
         <div class="toolbox-panels">
           <div id="toolbox-panel-watering" class="toolbox-panel" data-tool="watering" aria-hidden="true">
@@ -260,6 +264,12 @@
             <div class="toolbox-overview-charts">
               <div class="toolbox-overview-block"><h4>Zalijevanje</h4><div class="toolbox-chart" id="overview-chart-watering"></div></div>
               <div class="toolbox-overview-block"><h4>Okoliš (temperatura, vlažnost, pH)</h4><div class="toolbox-chart" id="overview-chart-environment"></div></div>
+            </div>
+            <div class="toolbox-overview-charts">
+              <section class="section cta-section">
+                <h1>Prognoza Vremena</h1>
+                <div id="weather">Loading...</div>
+              </section>
             </div>
           </div>
         </div>
