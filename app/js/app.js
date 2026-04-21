@@ -1533,18 +1533,24 @@
 
 function displayWeather(data) {
   const city = data.location.name;
-  const temp = data.current.temp_c;
-  const description = data.current.condition.text;
-  const humidity = data.current.humidity;
-  const wind = data.current.wind_kph;
 
-  const weatherHTML = `
-    <h2>${city}</h2>
-    <p><strong>${temp}°C</strong></p>
-    <p>${description}</p>
-    <p>Humidity: ${humidity}%</p>
-    <p>Wind: ${wind} kph</p>
-  `;
+  let weatherHTML = `<h2>${city} - 7 Dana Prognoza</h2>`;
+
+  data.forecast.forecastday.forEach(day => {
+    const date = day.date;
+    const avgTemp = day.day.avgtemp_c;
+    const condition = day.day.condition.text;
+    const icon = day.day.condition.icon;
+
+    weatherHTML += `
+      <div style="margin-bottom: 10px;">
+        <h4>${date}</h4>
+        <img src="https:${icon}" alt="${condition}">
+        <p>${condition}</p>
+        <p><strong>${avgTemp}°C</strong></p>
+      </div>
+    `;
+  });
 
   document.getElementById("weather").innerHTML = weatherHTML;
 }
@@ -1553,7 +1559,7 @@ async function getWeather(city) {
   const weatherDiv = document.getElementById("weather");
   weatherDiv.innerText = "Loading...";
 
-  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
+  const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=7`;
 
   try {
     const response = await fetch(url);
