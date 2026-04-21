@@ -1530,22 +1530,20 @@
   });
 });
 
+
 function displayWeather(data) {
-
-
-  const city = data.name;
-  const temp = Math.round(data.main.temp);
-  const description = data.weather[0].description;
-  const humidity = data.main.humidity;
-  const wind = data.wind.speed;
+  const city = data.location.name;
+  const temp = data.current.temp_c;
+  const description = data.current.condition.text;
+  const humidity = data.current.humidity;
+  const wind = data.current.wind_kph;
 
   const weatherHTML = `
     <h2>${city}</h2>
     <p><strong>${temp}°C</strong></p>
     <p>${description}</p>
-    <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}">
     <p>Humidity: ${humidity}%</p>
-    <p>Wind: ${wind} m/s</p>
+    <p>Wind: ${wind} kph</p>
   `;
 
   document.getElementById("weather").innerHTML = weatherHTML;
@@ -1555,14 +1553,14 @@ async function getWeather(city) {
   const weatherDiv = document.getElementById("weather");
   weatherDiv.innerText = "Loading...";
 
-  const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=4`;
+  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
 
   try {
     const response = await fetch(url);
     const data = await response.json();
 
-    if (data.cod !== 200) {
-      weatherDiv.innerText = "Error: " + data.message;
+    if (data.error) {
+      weatherDiv.innerText = "Error: " + data.error.message;
       return;
     }
 
@@ -1573,7 +1571,6 @@ async function getWeather(city) {
     console.error(error);
   }
 }
-
 
 
 
