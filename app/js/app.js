@@ -1557,7 +1557,7 @@ function displayWeather(data) {
   const city = data.location.name;
 
   let weatherHTML = `
-    <h2>${city} - 7 Day Forecast</h2>
+    <h2>${city} - 7 Dana Prognoza</h2>
     <div class="weather-container">
   `;
 
