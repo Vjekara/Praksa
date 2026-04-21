@@ -1507,35 +1507,56 @@
 
 //WeatherAPI
 const apiKey = "4fcd0d4855e24280a52121246261504";
-const city = "Visnjevac";
 
-function loadWeather() {
+document.querySelectorAll(".toolbox-card-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const tool = btn.dataset.tool;
 
-  const Wurl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=4`;
+    document.querySelectorAll(".toolbox-panel").forEach(panel => {
+      panel.style.display = "none";
+      panel.setAttribute("aria-hidden", "true");
+    });
+
+    const activePanel = document.getElementById(`toolbox-panel-${tool}`);
+    
+    if (activePanel) {
+      activePanel.style.display = "block";
+      activePanel.setAttribute("aria-hidden", "false");
+    }
+
+    if (tool === "vrijeme") {
+      getWeather("Visnjevac");
+    }
+  });
+});
+
+
+
+
+async function getWeather(city) {
   const weatherDiv = document.getElementById("weather");
 
   if (!weatherDiv) return;
 
   weatherDiv.innerHTML = "Loading...";
 
-  fetch(Wurl)
-    .then(res => res.json())
-    .then(data => {
-      weatherDiv.innerHTML = `Temp: ${data.current.temp_c}°C`;
-    })
-    .catch(() => {
-      weatherDiv.innerHTML = "Error loading weather";
-    });
-}
+  const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=4`;
 
-document.querySelectorAll(".toolbox-card-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const tool = btn.dataset.tool;
-    if (tool === "vrijeme") {
-      loadWeather();
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.error) {
+      weatherDiv.innerHTML = `Error: ${data.error.message}`;
+      return;
     }
-  });
-});
+
+    displayWeather(data);
+  } catch (error) {
+    console.error("Error:", error);
+    weatherDiv.innerHTML = "Error loading weather";
+  }
+}
 
 
 
