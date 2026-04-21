@@ -192,17 +192,13 @@
             <p>Procjena vremena za danas i idućih par dana</p>
           </button>
         </div>
-        <div class="toolbox-panels">
-            <div id="toolbox-panel-watering" class="toolbox-panel" data-tool="vrijeme" aria-hidden="true">
-            <h3 class="toolbox-panel-title">Zalijevanje</h3>
-            <form class="toolbox-form" id="toolbox-form-watering">
-              <label>Datum <input type="date" id="tool-watering-date" required /></label>
-              <label>Količina (mL) <input type="number" id="tool-watering-value1" min="0" placeholder="npr. 500" required /></label>
-              <label>Biljka <select id="tool-watering-value2" required><option value="">-- Odaberi biljku --</option></select></label>
-              <button type="submit" class="btn btn-primary">Dodaj</button>
-            </form>
-            <div class="toolbox-list" id="toolbox-list-watering"></div>
-            <div class="toolbox-chart-wrap"><h4>Graf: Količina po datumu</h4><div class="toolbox-chart" id="toolbox-chart-watering"></div></div>
+          <div class="toolbox-panels">
+          <div id="toolbox-panel-vrijeme" class="toolbox-panel" data-tool="vrijeme" aria-hidden="true">
+            <h3 class="toolbox-panel-title">Vrijeme</h3>
+                <section class="section cta-section">
+                <h1>Prognoza Vremena</h1>
+                <div id="weather">Loading...</div>
+          </section>
           </div>
           <div id="toolbox-panel-watering" class="toolbox-panel" data-tool="watering" aria-hidden="true">
             <h3 class="toolbox-panel-title">Zalijevanje</h3>
