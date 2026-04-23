@@ -1504,4 +1504,43 @@
   } else {
     renderDashboard();
   }
+
+
+(function initDanas() {
+  const danasView = document.getElementById("view-danas");
+  if (!danasView) return;
+
+  const buttons = danasView.querySelectorAll(".toolbox-card-btn");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tool = btn.dataset.tool;
+
+      // 1. Switch to toolbox view
+      switchView("toolbox");
+
+      // 2. Wait for view to render, then open panel
+      setTimeout(() => {
+        openToolPanel(tool);
+
+        // 3. Auto-fill today's date
+        const today = new Date().toISOString().split("T")[0];
+
+        const panel = document.querySelector(
+          `#toolbox-panel-${tool}`
+        );
+
+        if (panel) {
+          const dateInputs = panel.querySelectorAll('input[type="date"]');
+          dateInputs.forEach(input => {
+            input.value = today;
+          });
+        }
+      }, 50);
+    });
+  });
+})();
+
+
+
 })();
