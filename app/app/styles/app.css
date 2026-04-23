@@ -17,23 +17,50 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-.danas-grid {
-  gap: 16px;
+.danas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.danas-card {
-  cursor: default;
-}
-
-.danas-task {
+.danas-item {
   display: flex;
   gap: 12px;
   align-items: flex-start;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.danas-task input {
-  margin-top: 6px;
+.danas-item:hover {
+  background: var(--card-hover);
+}
+
+.danas-item input {
+  margin-top: 4px;
   transform: scale(1.2);
+}
+
+.danas-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.danas-title {
+  font-weight: 600;
+}
+
+.danas-desc {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+
+.danas-item input:checked + .danas-content .danas-title {
+  text-decoration: line-through;
+  opacity: 0.6;
 }
 
 * {
