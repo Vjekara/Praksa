@@ -18,9 +18,22 @@
 }
 
 .danas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
+  gap: 16px;
+}
+
+.danas-card {
+  cursor: default;
+}
+
+.danas-task {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.danas-task input {
+  margin-top: 6px;
+  transform: scale(1.2);
 }
 
 * {
