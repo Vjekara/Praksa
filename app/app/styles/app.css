@@ -17,6 +17,12 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
+.danas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
