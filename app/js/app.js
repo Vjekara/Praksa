@@ -177,27 +177,25 @@ async function showAdminLinkIfAllowed(user) {
 
   if (!adminLink) return;
 
-  try {
-    const usersRef = db.collection("users");
-    const snapshot = await usersRef.get();
+  const snapshot = await db.collection("users").get();
 
-    let role = "user";
+  let role = "user";
 
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      if (data.uId === user.uid) {
-        role = data.role || "user";
-      }
-    });
+  snapshot.forEach(doc => {
+    const data = doc.data();
 
-    if (role === "admin" || role === "superadmin") {
-      adminLink.style.display = "flex";
-    } else {
-      adminLink.style.display = "none";
+    console.log("CHECKING:", data.uId, "vs", user.uid);
+
+    if (data.uId === user.uid) {
+      role = data.role;
+      console.log("FOUND USER ROLE:", role);
     }
+  });
 
-  } catch (err) {
-    console.error("Admin check failed:", err);
+  console.log("FINAL ROLE:", role);
+
+  if (role === "admin" || role === "superadmin") {
+    adminLink.style.display = "flex";
   }
 }
 
