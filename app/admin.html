@@ -1,44 +1,53 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 <head>
-  <title>Firestore Admin Viewer</title>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    h2 { margin-top: 40px; }
-    .card {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 6px;
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 20px;
     }
-    .admin-only {
-      background: #ffdddd;
-      padding: 10px;
-      margin-top: 20px;
-    }
+
+
+h1 { margin-bottom: 20px; }
+
+.section {
+  margin-bottom: 40px;
+}
+
+.card {
+  background: #1e293b;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+button {
+  margin-right: 5px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.add-btn { background: #22c55e; }
+.edit-btn { background: #3b82f6; }
+.delete-btn { background: #ef4444; }
+
+
   </style>
 </head>
 <body>
 
-<h1>Firestore Data Viewer</h1>
+<h1>🔥 Admin Dashboard</h1>
 
-<div id="adminSection" class="admin-only" style="display:none;">
-  <h2>Admin Controls</h2>
-  <button onclick="deleteSomething()">Delete Example</button>
-</div>
-
-<h2>Tenants</h2>
-<div id="tenants"></div>
-
-<h2>Users</h2>
-<div id="users"></div>
-
-<h2>Plants</h2>
-<div id="plants"></div>
-
-<h2>Entries</h2>
-<div id="entries"></div>
+<div id="app"></div>
 
 <script type="module" src="./admin.js"></script>
+
 </body>
 </html>

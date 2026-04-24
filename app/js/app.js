@@ -1584,6 +1584,17 @@ function displayWeather(data) {
   document.getElementById("weather").innerHTML = weatherHTML;
 }
 
+function showAdminLinkIfAllowed(userData) {
+  const adminLink = document.getElementById("admin-link");
+
+  if (!adminLink) return;
+
+  if (userData.role === "admin" || userData.role === "superadmin") {
+    adminLink.style.display = "flex";
+  } else {
+    adminLink.style.display = "none";
+  }
+}
 
 
 })();
