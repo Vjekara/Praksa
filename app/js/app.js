@@ -1530,6 +1530,8 @@
   });
 });
 
+//test weather  https://api.weatherapi.com/v1/forecast.json?key=4fcd0d4855e24280a52121246261504&q=Visnjevac
+
 async function getWeather(city) {
   const weatherDiv = document.getElementById("weather");
   weatherDiv.innerText = "Loading...";
@@ -1580,6 +1582,100 @@ function displayWeather(data) {
   weatherHTML += `</div>`;
 
   document.getElementById("weather").innerHTML = weatherHTML;
+}
+
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+// 🔥 YOUR CONFIG HERE
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// ----------------------
+// AUTH + ROLE CHECK
+// ----------------------
+let currentUserRole = null;
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
+
+  const snap = await getDocs(collection(db, "users"));
+  snap.forEach(doc => {
+    if (doc.id === user.uid) {
+      currentUserRole = doc.data().role;
+
+      if (isAdmin()) {
+        document.getElementById("adminSection").style.display = "block";
+      }
+    }
+  });
+
+  loadAllData();
+});
+
+function isAdmin() {
+  return currentUserRole === "admin" || currentUserRole === "super_admin";
+}
+
+// ----------------------
+// LOAD COLLECTIONS
+// ----------------------
+
+async function loadCollection(name, containerId) {
+  const querySnapshot = await getDocs(collection(db, name));
+  const container = document.getElementById(containerId);
+
+  container.innerHTML = "";
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <strong>ID:</strong> ${doc.id}<br>
+      <pre>${JSON.stringify(data, null, 2)}</pre>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+async function loadAllData() {
+  await loadCollection("tenants", "tenants");
+  await loadCollection("users", "users");
+  await loadCollection("plants", "plants");
+  await loadCollection("entries", "entries");
+}
+
+// ----------------------
+// ADMIN ACTION EXAMPLE
+// ----------------------
+function deleteSomething() {
+  if (!isAdmin()) {
+    alert("Not allowed");
+    return;
+  }
+
+  alert("Admin action triggered!");
 }
 
 
