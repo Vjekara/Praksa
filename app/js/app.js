@@ -1596,5 +1596,86 @@ function showAdminLinkIfAllowed(userData) {
   }
 }
 
+import { addDoc, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+async function createAdminUser(uid) {
+  await addDoc(collection(db, "users"), {
+    uId: uid,
+    role: "admin", // or "superadmin"
+    createdAt: new Date().toISOString()
+  });
+
+  console.log("Admin created!");
+}
+
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+function setupMakeAdminButton(auth, db) {
+  const btn = document.getElementById("make-admin-btn");
+
+  if (!btn) return;
+
+  btn.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      alert("Not logged in");
+      return;
+    }
+
+    const uid = user.uid;
+
+    try {
+      const usersRef = collection(db, "users");
+      const snap = await getDocs(usersRef);
+
+      let existingDocId = null;
+
+      snap.forEach(d => {
+        if (d.data().uId === uid) {
+          existingDocId = d.id;
+        }
+      });
+
+      if (existingDocId) {
+       
+        await updateDoc(doc(db, "users", existingDocId), {
+          role: "admin"
+        });
+
+        alert("✅ You are now ADMIN (updated)");
+      } else {
+      
+        await addDoc(usersRef, {
+          uId: uid,
+          role: "admin",
+          createdAt: new Date().toISOString()
+        });
+
+        alert("✅ You are now ADMIN (created)");
+      }
+
+      console.log("UID:", uid);
+
+    
+      window.location.reload();
+
+    } catch (err) {
+      console.error(err);
+      alert("Error making admin");
+    }
+  });
+}
+
+setupMakeAdminButton(auth, db);
+
 
 })();
