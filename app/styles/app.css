@@ -32,9 +32,6 @@ body.app-loading::before {
 .admin-only,
 .admin-super-only {
   display: none;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
 }
 
 .admin-system-card {
